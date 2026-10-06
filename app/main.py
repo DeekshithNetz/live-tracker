@@ -2,13 +2,27 @@ from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 import redis.asyncio as redis
 import json
 
-app = FastAPI()
+import os
+from dotenv import load_dotenv
+import redis.asyncio as redis
 
+load_dotenv()
+
+REDIS_URL = os.getenv("REDIS_URL")
+
+redis_client = redis.from_url(
+    REDIS_URL,
+    decode_responses=True
+)
+
+app = FastAPI()
+#for local setup 
+'''
 redis_client = redis.Redis(
     host="localhost",
     port=6379,
     decode_responses=True
-)
+)'''
 
 
 ONLINE_USERS_KEY = "online_users"
