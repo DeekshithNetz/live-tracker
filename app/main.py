@@ -142,27 +142,13 @@ async def websocket_endpoint(
 
             latitude = data["latitude"]
             longitude = data["longitude"]
+            display_name = data.get( "displayName", f"User {user_id[:6]}" )
 
-            location = {
-                "user_id": user_id,
-                "latitude": latitude,
-                "longitude": longitude
-            }
+            location = { "user_id": user_id, "displayName": display_name, "latitude": latitude, "longitude": longitude }
 
             # Store latest location
-            await redis_client.set(
-                f"user:{user_id}:location",
-                json.dumps(location)
-            )
-
-            # Broadcast location
-            await manager.broadcast(
-                {
-                    "type": "user_location",
-                    "data": location
-                },
-                exclude_user=user_id
-            )
+            await redis_client.set( f"user:{user_id}:location", json.dumps(location) )
+            await manager.broadcast( { "type": "user_location", "data": location }, exclude_user=user_id )
 
     except WebSocketDisconnect:
 
