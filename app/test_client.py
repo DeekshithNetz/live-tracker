@@ -100,7 +100,7 @@ async def main():
     ).strip()
 
     uri = (
-        f"ws://127.0.0.1:8000/ws/"
+        f"wss://https://live-tracker-gwsq.onrender.com/ws/"
         f"{user_id}"
     )
 
@@ -127,4 +127,4 @@ async def main():
         )
 
 
-asyncio.run(main())
+asyncio.run(main())     
